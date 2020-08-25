@@ -47,6 +47,12 @@ from PIL import ImageFont
 # Load default font.
 font = ImageFont.load_default()
 
+aval = 36.85
+bval = 19.25
+cval = 40.95
+dval = 49.40
+eval = 24.18
+
 # Create blank image for drawing.
 # Make sure to create image with mode '1' for 1-bit color.
 width = 128
@@ -91,7 +97,23 @@ try:
 		cjson=c.json()
 		djson=d.json()
 		ejson=e.json()
+		floatajson=float(ajson["c"])
+		floatbjson=float(bjson["c"])
+		floatcjson=float(cjson["c"])
+		floatdjson=float(djson["c"])
+		floatejson=float(ejson["c"])
+		diffajson= floatajson - aval
+		diffbjson= floatbjson - bval
+		diffcjson= floatcjson - cval
+		diffdjson= floatdjson - dval
+		diffejson= floatejson - eval
+		aprct= round(diffajson / aval * 100,1)
+		bprct= round(diffbjson / bval * 100,1)
+		cprct= round(diffcjson / cval * 100,1)
+		dprct= round(diffdjson / dval * 100,1)
+		eprct= round(diffejson / eval * 100,1)
 		curr_exjson = curr_ex.json()
+		floatcurr_ex = round(float(curr_exjson["quote"]["INR"]),2)
                 time.sleep(3)
 		with canvas(device) as draw:
 			
@@ -117,12 +139,15 @@ try:
 			#draw.text((x, top+16),    str(MemUsage),  font=font, fill=255)
 			#draw.text((x, top+24),    str(Disk),  font=font, fill=255)
 
-			draw.text((x, top),    "WDC: " + str(ajson["c"]) + "  36.85",  font=font, fill=255)
-			draw.text((x, top+8), "KSS: " +  str(bjson["c"]) + "  19.25",  font=font, fill=255)
-			draw.text((x, top+16), "WBA: " +  str(cjson["c"]) + "  40.95",  font=font, fill=255)
-			draw.text((x, top+24), "INTC: " +  str(djson["c"]) + "  49.40",  font=font, fill=255)
-			draw.text((x, top+32),  "WFC: " +  str(ejson["c"]) + "  24.18",  font=font, fill=255)
-			draw.text((x, top+40),  "USD - INR: " +  str(curr_exjson["quote"]["INR"]),  font=font, fill=255)
+			draw.text((x, top),    "WDC:  " + str(ajson["c"]) + " "  + str(aprct),  font=font, fill=255)
+			draw.text((x, top+8), "KSS:  " +  str(bjson["c"]) + " "  + str(bprct),  font=font, fill=255)
+			draw.text((x, top+16), "WBA:  " +  str(cjson["c"]) + " "  + str(cprct),  font=font, fill=255)
+			draw.text((x, top+24), "INTC: " +  str(djson["c"]) + " " + str(dprct),  font=font, fill=255)
+			draw.text((x, top+32), "WFC:  " +  str(ejson["c"]) + " " + str(eprct),  font=font, fill=255)
+			#draw.text((x, top+16), "WBA: " +  str(cjson["c"]) + "  40.95",  font=font, fill=255)
+			#draw.text((x, top+24), "INTC: " +  str(djson["c"]) + "  49.40",  font=font, fill=255)
+			#draw.text((x, top+32),  "WFC: " +  str(ejson["c"]) + "  24.18",  font=font, fill=255)
+			draw.text((x, top+40),  "USD - INR: " +  str(floatcurr_ex),  font=font, fill=255)
 			draw.text((x, top+48),  "CPU Temp: " +  str(cpu.temperature),  font=font, fill=255)
 			draw.text((x, top+56),  str(localtime),  font=font, fill=255)
 except:
@@ -132,6 +157,6 @@ except:
 	print(cjson["c"])
 	print(djson["c"])
 	print(ejson["c"])
-	print(CPU)
-	print(curr_exjson["quote"]["INR"])
+	print(cpu)
+	print(round(curr_exjson["quote"]["INR"],3))
 GPIO.cleanup()
