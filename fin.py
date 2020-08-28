@@ -51,7 +51,8 @@ aval = 36.85
 bval = 19.25
 cval = 40.95
 dval = 49.40
-eval = 24.18
+eval = 25.18
+fval = 40.20
 
 # Create blank image for drawing.
 # Make sure to create image with mode '1' for 1-bit color.
@@ -92,26 +93,31 @@ try:
 		c = requests.get('https://finnhub.io/api/v1/quote?symbol=WBA&token=bsqq90748v6p29vi9770')
 		d = requests.get('https://finnhub.io/api/v1/quote?symbol=INTC&token=bsqq90748v6p29vi9770')
 		e = requests.get('https://finnhub.io/api/v1/quote?symbol=WFC&token=bsqq90748v6p29vi9770')
+		f = requests.get('https://finnhub.io/api/v1/quote?symbol=XOM&token=bsqq90748v6p29vi9770')
 		ajson=a.json()
 		bjson=b.json()
 		cjson=c.json()
 		djson=d.json()
 		ejson=e.json()
+		fjson=f.json()
 		floatajson=float(ajson["c"])
 		floatbjson=float(bjson["c"])
 		floatcjson=float(cjson["c"])
 		floatdjson=float(djson["c"])
 		floatejson=float(ejson["c"])
+		floatejson=float(fjson["c"])
 		diffajson= floatajson - aval
 		diffbjson= floatbjson - bval
 		diffcjson= floatcjson - cval
 		diffdjson= floatdjson - dval
 		diffejson= floatejson - eval
+		difffjson= floatejson - fval
 		aprct= round(diffajson / aval * 100,1)
 		bprct= round(diffbjson / bval * 100,1)
 		cprct= round(diffcjson / cval * 100,1)
 		dprct= round(diffdjson / dval * 100,1)
 		eprct= round(diffejson / eval * 100,1)
+		fprct= round(difffjson / fval * 100,1)
 		curr_exjson = curr_ex.json()
 		floatcurr_ex = round(float(curr_exjson["quote"]["INR"]),2)
                 time.sleep(3)
@@ -144,10 +150,11 @@ try:
 			draw.text((x, top+16), "WBA:  " +  str(cjson["c"]) + " "  + str(cprct),  font=font, fill=255)
 			draw.text((x, top+24), "INTC: " +  str(djson["c"]) + " " + str(dprct),  font=font, fill=255)
 			draw.text((x, top+32), "WFC:  " +  str(ejson["c"]) + " " + str(eprct),  font=font, fill=255)
+			draw.text((x, top+40), "XOM:  " +  str(fjson["c"]) + " " + str(fprct),  font=font, fill=255)
 			#draw.text((x, top+16), "WBA: " +  str(cjson["c"]) + "  40.95",  font=font, fill=255)
 			#draw.text((x, top+24), "INTC: " +  str(djson["c"]) + "  49.40",  font=font, fill=255)
 			#draw.text((x, top+32),  "WFC: " +  str(ejson["c"]) + "  24.18",  font=font, fill=255)
-			draw.text((x, top+40),  "USD - INR: " +  str(floatcurr_ex),  font=font, fill=255)
+			#draw.text((x, top+40),  "USD - INR: " +  str(floatcurr_ex),  font=font, fill=255)
 			draw.text((x, top+48),  "CPU Temp: " +  str(cpu.temperature),  font=font, fill=255)
 			draw.text((x, top+56),  str(localtime),  font=font, fill=255)
 except:
